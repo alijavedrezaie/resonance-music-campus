@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#153652" />
+    <meta
+      name="description"
+      content="Resonance Music Campus — your personal home for music courses, assignments, practice and original songs."
+    />
+    <title>Resonance Music Campus</title>
+    <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/campus.css" />
+    <link rel="stylesheet" href="css/lessons.css" />
+    <link rel="stylesheet" href="css/accessibility.css" />
+    <link rel="stylesheet" href="css/account.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#app">Skip to page content</a>
+    <div class="campus-top">
+      <div class="campus-inner">
+        <a class="brand" href="#home" aria-label="Resonance Music Campus home"
+          ><img src="assets/logo.svg" alt="" width="42" height="42" /><span
+            >resonance<small>MUSIC CAMPUS</small></span
+          ></a
+        >
+        <div class="campus-tag">Your sound. Your next chapter.</div>
+        <div class="campus-utilities">
+          <a
+            href="#settings"
+            class="reading-link"
+            aria-label="Reading and accessibility settings"
+            >Aa <span>Reading settings</span></a
+          >
+          <a href="#help" class="utility-link">Help & guide</a
+          ><a
+            class="avatar"
+            href="#profile"
+            aria-label="Your profile"
+            data-avatar
+            >A</a
+          ><button type="button" class="sign-out-link" data-account-logout>
+            Sign out
+          </button>
+        </div>
+      </div>
+    </div>
+    <nav class="campus-nav" aria-label="Main navigation">
+      <button
+        id="nav-toggle"
+        class="nav-toggle"
+        type="button"
+        aria-controls="campus-links"
+        aria-expanded="false"
+      >
+        Campus menu <span aria-hidden="true">☰</span>
+      </button>
+      <div class="campus-inner" id="campus-links">
+        <a href="#home" data-nav="home">Overview</a
+        ><a href="#curriculum" data-nav="curriculum">My courses</a
+        ><a href="#assignments" data-nav="assignments">Assignments</a
+        ><a href="#planner" data-nav="planner">Planner</a
+        ><a href="#library" data-nav="library">Resources</a
+        ><a href="#studio" data-nav="studio">Songbook</a
+        ><a href="#progress" data-nav="progress">Progress</a>
+      </div>
+    </nav>
+    <aside id="account-notice" class="account-notice" role="alert" hidden>
+      <p></p>
+      <div class="actions">
+        <button class="button ghost" data-account-retry type="button">
+          Retry saving</button
+        ><button class="button ghost" data-account-backup type="button">
+          Download unsaved backup</button
+        ><button class="button ghost" data-account-reload type="button" hidden>
+          Back up & reload
+        </button>
+      </div>
+    </aside>
+    <main>
+      <header>
+        <span id="crumb"></span
+        ><span class="header-right"
+          ><span class="live-dot"></span> INDEPENDENT ARTIST PROGRAM</span
+        >
+        <span
+          id="sync-status"
+          class="account-status"
+          role="status"
+          aria-live="polite"
+          >Connecting…</span
+        >
+      </header>
+      <div id="app" tabindex="-1"></div>
+      <footer>
+        <a href="#home">Resonance Music Campus</a
+        ><span>Small steps. A sound of your own.</span
+        ><a href="#settings">Settings & backups</a>
+      </footer>
+    </main>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script src="js/hosting-config.js" defer></script>
+    <script src="js/state-validation.js" defer></script>
+    <script src="js/backend.js" defer></script>
+    <script src="js/bootstrap.js" defer></script>
+  </body>
+</html>

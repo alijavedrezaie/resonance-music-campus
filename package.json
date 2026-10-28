@@ -1,0 +1,18 @@
+{
+  "name": "resonance-music-campus",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A private, single-owner music learning campus",
+  "engines": {
+    "node": ">=22.17.0"
+  },
+  "scripts": {
+    "start": "node server/start.cjs",
+    "test": "node --test tests/*.test.js",
+    "reset-password": "node scripts/reset-password.cjs",
+    "build:pages": "node scripts/build-pages.cjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.13"
+  }
+}

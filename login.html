@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#153652" />
+    <title>Sign in · Resonance Music Campus</title>
+    <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/campus.css" />
+    <link rel="stylesheet" href="css/accessibility.css" />
+    <link rel="stylesheet" href="css/account.css" />
+  </head>
+  <body class="login-page">
+    <main class="login-layout">
+      <section class="login-intro">
+        <a class="brand" href="login.html"
+          ><img src="assets/logo.svg" width="48" height="48" alt="" /><span
+            >resonance<small>MUSIC CAMPUS</small></span
+          ></a
+        ><span class="eyebrow">YOUR PRIVATE LEARNING SPACE</span>
+        <h1>A little practice.<br />A sound of your own.</h1>
+        <p>
+          Your courses, original songs and learning progress, together in a
+          campus that belongs to you.
+        </p>
+        <ul>
+          <li>64 weeks of connected music lessons</li>
+          <li>Visual examples you can hear and explore</li>
+          <li>Your personal planner and songbook</li>
+        </ul>
+        <p class="login-footnote">One owner account. No public sign-up.</p>
+      </section>
+      <section class="login-card" aria-labelledby="login-title">
+        <span class="eyebrow">WELCOME TO YOUR CAMPUS</span>
+        <h2 id="login-title">Sign in</h2>
+        <p id="login-description">Use your email and password to continue.</p>
+        <form id="login-form" class="account-form">
+          <div id="setup-fields" hidden>
+            <label
+              >Your display name<input
+                id="display-name"
+                name="displayName"
+                type="text"
+                autocomplete="name"
+                maxlength="80" /></label
+            ><label
+              >Local setup code<input
+                id="setup-code"
+                name="code"
+                type="text"
+                autocomplete="off"
+                autocapitalize="none"
+                spellcheck="false"
+                aria-describedby="setup-help"
+            /></label>
+            <p class="note" id="setup-help">
+              Find the one-time code in the terminal where you ran npm start.
+              Account creation is available only on this computer.
+            </p>
+          </div>
+          <label
+            >Email address<input
+              name="email"
+              type="email"
+              autocomplete="username"
+              autocapitalize="none"
+              spellcheck="false"
+              required
+              maxlength="254" /></label
+          ><label
+            >Password<input
+              name="password"
+              id="password"
+              type="password"
+              autocomplete="current-password"
+              required
+              maxlength="128"
+              data-password
+          /></label>
+          <div id="confirmation-field" hidden>
+            <p class="note">
+              Choose a unique password with 15–128 characters. Spaces and pasted
+              passwords are welcome.
+            </p>
+            <label
+              >Confirm password<input
+                name="confirmation"
+                id="confirmation"
+                type="password"
+                autocomplete="new-password"
+                maxlength="128"
+                data-password
+            /></label>
+          </div>
+          <button
+            class="text-button password-toggle"
+            id="toggle-password"
+            type="button"
+            aria-pressed="false"
+          >
+            Show password
+          </button>
+          <p id="login-error" class="form-error" role="alert"></p>
+          <button id="login-submit" class="button" type="submit" disabled>
+            Loading account…
+          </button>
+        </form>
+        <p id="recovery-help" class="note">
+          Forgot your password? The owner can reset it from this computer's
+          terminal using <code>npm run reset-password</code>.
+        </p>
+        <noscript
+          ><p>
+            JavaScript is required to sign in and use the interactive lessons.
+          </p></noscript
+        >
+      </section>
+    </main>
+    <script src="js/hosting-config.js" defer></script>
+    <script src="js/state-validation.js" defer></script>
+    <script src="js/backend.js" defer></script>
+    <script src="js/login.js" defer></script>
+  </body>
+</html>

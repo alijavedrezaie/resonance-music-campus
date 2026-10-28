@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Export previous browser work · Resonance</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/campus.css" />
+    <link rel="stylesheet" href="css/accessibility.css" />
+    <link rel="stylesheet" href="css/account.css" />
+  </head>
+  <body>
+    <main id="app">
+      <section class="panel">
+        <h1>Keep your previous learning work</h1>
+        <p>
+          Open this page at the same address and port where you used the older
+          browser-only campus, such as your existing Live Server preview. This
+          tool reads only the previous data saved in this browser at this exact
+          address.
+        </p>
+        <button class="button" id="export-legacy" type="button">
+          Download my previous progress
+        </button>
+        <p id="legacy-status" role="status"></p>
+        <p>
+          Then start the private campus with <code>npm start</code>, sign in,
+          and import the downloaded JSON under Settings & backups. The original
+          browser data stays unchanged.
+        </p>
+      </section>
+    </main>
+    <script src="js/legacy-export.js" defer></script>
+  </body>
+</html>

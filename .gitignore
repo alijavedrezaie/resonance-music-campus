@@ -1,0 +1,16 @@
+.private/
+.env
+.env.*
+!.env.example
+node_modules/
+.DS_Store
+
+# Private runtime data, personal backups and local preview artifacts
+.resonance-music-campus/
+*.sqlite
+*.sqlite-*
+*.db
+*-backup.json
+/*-preview.png
+/dist/
+/output/
