@@ -1,0 +1,304 @@
+/* Content responds to available space and enlarged text, not a device brand. */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  min-width: 0;
+}
+img {
+  max-width: 100%;
+}
+input,
+select,
+textarea {
+  max-width: 100%;
+}
+.campus-inner,
+#app,
+header {
+  width: 100%;
+}
+.grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.week-list,
+.resource-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.two-col {
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+}
+.planner-layout {
+  grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.5fr);
+}
+.campus-nav {
+  position: static;
+}
+.profile-layout > * {
+  min-width: 0;
+}
+.tool-row > * {
+  min-width: 0;
+}
+.resource h3,
+.week-row h3,
+.plan-title,
+.section-head h2 {
+  overflow-wrap: anywhere;
+}
+.resource-grid > .resource {
+  min-width: 0;
+}
+.campus-utilities {
+  justify-content: flex-end;
+}
+.campus-top .campus-inner {
+  min-height: 0;
+}
+.account-status:empty {
+  display: none;
+}
+.campus-nav a.active {
+  font-weight: 700;
+}
+.practice-plan div b {
+  white-space: nowrap;
+}
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .campus-top .campus-inner {
+    gap: 20px;
+  }
+  .campus-tag {
+    display: none;
+  }
+  .lesson-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .lesson-layout > div:last-child {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    align-items: start;
+  }
+  .lesson-layout > div:last-child > .panel {
+    margin-top: 0 !important;
+  }
+  .two-col {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .profile-layout {
+    grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr);
+  }
+}
+@media (max-width: 960px) {
+  .campus-top .campus-inner {
+    align-items: start;
+  }
+  .campus-utilities {
+    margin-left: auto;
+    flex: 1 1 360px;
+  }
+  .campus-nav .campus-inner {
+    gap: 4px 18px;
+  }
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+  .planner-layout {
+    grid-template-columns: 1fr;
+  }
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
+  .profile-summary {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px 22px;
+  }
+  .profile-summary .profile-avatar {
+    grid-row: span 3;
+  }
+  .profile-summary h2,
+  .profile-summary p {
+    margin: 0;
+  }
+  .profile-summary .actions,
+  .profile-summary .session-note,
+  .profile-summary > .button {
+    grid-column: 1/-1;
+  }
+  .intro {
+    flex-wrap: wrap;
+  }
+  .hero-content {
+    max-width: 85%;
+  }
+}
+@media (max-width: 760px) {
+  .campus-utilities {
+    flex-basis: 100%;
+    justify-content: space-between;
+  }
+  .campus-inner {
+    padding-inline: 18px;
+  }
+  .campus-top .campus-inner {
+    padding-bottom: 16px;
+  }
+  .grid,
+  .week-list,
+  .resource-grid,
+  .help-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .lesson-layout > div:last-child {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .campus-nav #campus-links {
+    gap: 8px;
+  }
+  .campus-nav.is-open #campus-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .campus-nav a {
+    margin: 0;
+    line-height: 1.6;
+  }
+  .campus-nav a.active {
+    border-bottom: 3px solid #16728e;
+  }
+  .campus-nav a.active:after {
+    display: none;
+  }
+  .hero-content {
+    max-width: 100%;
+  }
+  .hero {
+    min-height: 0;
+  }
+  .hero h2 {
+    overflow-wrap: anywhere;
+  }
+  .pill {
+    white-space: normal;
+  }
+  .plan-item {
+    align-items: start;
+  }
+  .plan-title {
+    flex: 1 1 100%;
+  }
+  .plan-item .text-button {
+    margin-left: 36px;
+  }
+  .week-row {
+    padding: 18px;
+    gap: 14px;
+  }
+  .week-num {
+    font-size: 1.3rem;
+  }
+  .section-head {
+    gap: 12px;
+  }
+  .account-notice .actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .account-notice button {
+    width: 100%;
+  }
+  .account-status {
+    flex: 1 1 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+  #app {
+    padding-bottom: max(32px, env(safe-area-inset-bottom));
+  }
+  footer {
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+  }
+  .lab-transport {
+    gap: 12px;
+  }
+  .profile-summary {
+    display: block;
+  }
+  .profile-summary h2 {
+    margin-bottom: 10px;
+  }
+  .profile-summary p {
+    margin-bottom: 14px;
+  }
+  .profile-form-panel {
+    padding: 20px;
+  }
+  .course-cover img {
+    aspect-ratio: 2/1;
+  }
+  .login-layout {
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+}
+@media (min-width: 761px) and (max-width: 960px) {
+  .campus-nav .campus-inner {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .campus-nav a {
+    padding: 12px 8px;
+    white-space: normal;
+  }
+  .campus-nav a.active {
+    background: #eaf3f8;
+    border-radius: 5px;
+  }
+}
+@media (pointer: coarse) {
+  button,
+  .button,
+  .text-button,
+  .instrument-tabs button,
+  .tabs button,
+  .campus-nav a {
+    min-height: 48px;
+  }
+  .check {
+    width: 30px;
+    height: 30px;
+  }
+  .check:checked:after {
+    line-height: 27px;
+  }
+  .week-task {
+    padding: 20px 0;
+  }
+  .lab-range input[type="range"] {
+    min-height: 48px;
+  }
+}
+@media print {
+  .campus-top,
+  .campus-nav,
+  .account-status,
+  .account-notice,
+  .profile-summary button {
+    display: none !important;
+  }
+  .lesson-layout > div:last-child {
+    display: block;
+  }
+  .profile-layout,
+  .planner-layout {
+    display: block;
+  }
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
