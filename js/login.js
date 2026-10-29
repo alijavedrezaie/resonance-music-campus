@@ -14,6 +14,7 @@
   async function initialize() {
     try {
       const account = await CampusBackend.request("/api/session");
+      document.querySelector("#cloud-recovery").hidden = !CampusBackend.isCloud;
       if (CampusBackend.isCloud)
         document.querySelector("#recovery-help").textContent =
           "Your owner account is managed in your Supabase dashboard. Public registration is disabled. Sign out when using a shared device.";

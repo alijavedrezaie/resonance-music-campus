@@ -10,6 +10,7 @@
       fetch: root.fetch.bind(root),
       storage: root.sessionStorage,
       validateState: root.CampusState.validState,
+      pageUrl: root.location.href,
     });
 })(globalThis, () => {
   const SESSION_KEY = "resonance-cloud-session-v1";
@@ -59,10 +60,12 @@
     storage,
     validateState,
     now = () => Date.now(),
+    pageUrl,
   }) {
     const cloud = config.backend === "supabase";
     let session = null,
-      refreshing = null;
+      refreshing = null,
+      recoveryToken = null;
     const storageKey = SESSION_KEY + ":" + String(config.url || "local");
     function error(message, status) {
       return Object.assign(new Error(message), { status });
@@ -204,6 +207,40 @@
           ...(body === undefined ? {} : { body: JSON.stringify(body) }),
         });
       validateConfig(config);
+      if (route === "/api/recovery/request") {
+        const redirect = new URL("reset-password.html", pageUrl);
+        if (redirect.protocol !== "https:")
+          throw error("Open the HTTPS campus website to reset your password.", 400);
+        await auth("recover?redirect_to=" + encodeURIComponent(redirect.href), "POST", {
+          email: String(body.email || "").trim(),
+        });
+        return { ok: true };
+      }
+      if (route === "/api/recovery/verify") {
+        recoveryToken = null;
+        if (body.type !== "recovery" || typeof body.accessToken !== "string" || !body.accessToken)
+          throw error("Open a fresh password reset link from your email.", 401);
+        const token = body.accessToken;
+        await auth("user", "GET", undefined, token);
+        const owner = await network(`${config.url.replace(/\/$/, "")}/rest/v1/rpc/campus_is_owner`, {
+          method: "POST", headers: cloudHeaders(token), body: "{}",
+        });
+        if (!owner) throw error("This recovery link is not for the campus owner.", 403);
+        recoveryToken = token; // Memory only; never persist a recovery credential.
+        return { ok: true };
+      }
+      if (route === "/api/recovery/password") {
+        if (!recoveryToken) throw error("Open a fresh password reset link from your email.", 401);
+        if (typeof body.password !== "string" || body.password.length < 15 || body.password.length > 128)
+          throw error("Choose a password between 15 and 128 characters.", 400);
+        await auth("user", "PUT", { password: body.password }, recoveryToken);
+        const token = recoveryToken;
+        recoveryToken = null;
+        persist(null);
+        try { await auth("logout?scope=global", "POST", {}, token); }
+        catch { return { ok: true, signOutFailed: true }; }
+        return { ok: true };
+      }
       if (!session) {
         try {
           const saved = JSON.parse(storage.getItem(storageKey));
