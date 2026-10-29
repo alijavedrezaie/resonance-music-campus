@@ -2,7 +2,7 @@
 
 A responsive music-learning campus with email/password sign-in, a profile, visual lessons, a planner and a songbook.
 
-**Selected free online hosting:** [GitHub Pages + Supabase setup](docs/github-pages.md). The source and lesson assets are public; personal account data is protected by owner-only database permissions. The local Node version below remains available. Neither a GitHub repository nor a live Supabase project has been configured by these local files alone.
+**Live campus:** [Open Resonance Music Campus](https://alijavedrezaie.github.io/resonance-music-campus/). Hosted on GitHub Pages with Supabase Free for email/password sign-in and private saved work. The source and lesson assets are public; personal account data is protected by owner-only database permissions. See the [hosting guide](docs/github-pages.md) for configuration and recovery. The separate local Node version below remains available.
 
 ## Start locally
 
@@ -15,7 +15,7 @@ Requires Node.js **22.17 or newer**. The local runtime has no third-party packag
 
 Enter your password only in the local setup/login screen. Do not put it in source files or send it in chat. The setup code is regenerated if you restart before creating the owner. Once the owner exists, account creation is disabled. The server binds to this computer only in local mode.
 
-**Do not use Live Server, a generic static server, or open the HTML file directly for the private version.** Those tools do not enforce the authentication checks. The Node server is now the entry point. Never publish the project directory as a static website.
+**Use `npm start` for the local Node version.** Live Server and opening the HTML directly do not run its authentication server. For GitHub Pages, the dedicated build produces a static frontend that connects to Supabase; publish only that generated artifact.
 
 ## Your profile and saved work
 
@@ -41,7 +41,7 @@ The default database lives outside the project directory. Any local `.private` b
 
 The interface adapts to narrow phones, tablets, landscape screens and larger text. The mobile menu is keyboard accessible, forms have appropriate input types/autocomplete, touch targets are larger, and musical diagrams scroll within their own panels.
 
-**There is no public website yet.** Follow the [free GitHub Pages guide](docs/github-pages.md) to configure the selected hosted version. Running locally does not make the campus available from your phone or away from this computer. The following Node deployment details are an alternative to the selected GitHub Pages setup. For access wherever you are, deploy this Node application behind HTTPS on hosting with a persistent disk. Use the same private database so your account and work move together. A static-only host cannot run this private version.
+**Use the live campus link above on your phone or tablet.** The [free GitHub Pages guide](docs/github-pages.md) explains the deployed Supabase version. Running locally does not make the local account available away from this computer. The following Node deployment details describe an alternative that requires hosting with a persistent disk. Use the same private database when moving a local Node account. A static-only host cannot run the Node backend.
 
 Production configuration:
 
