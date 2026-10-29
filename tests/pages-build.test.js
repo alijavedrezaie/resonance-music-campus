@@ -23,6 +23,13 @@ test("Pages artifact contains only website files and works at a repository subpa
   assert(index.includes("js/backend.js"));
   assert(index.includes("js/bootstrap.js"));
   assert(login.includes("js/hosting-config.js"));
+  const reset = await fs.readFile(path.join(directory, "reset-password.html"), "utf8");
+  const version = login.match(/js\/backend\.js\?v=([a-f0-9]{16})/)[1];
+  for (const page of [index, login, reset]) {
+    const assets = [...page.matchAll(/(?:src|href)="((?:js|css|assets)\/[^\"]+)"/g)];
+    assert(assets.length > 0);
+    assert(assets.every((match) => match[1].endsWith(`?v=${version}`)));
+  }
   assert(!login.includes('href="/login.html"'));
   assert(config.includes('"backend": "supabase"'));
   for (const privatePath of [
@@ -46,8 +53,10 @@ test("Pages artifact contains only website files and works at a repository subpa
   await buildPages({
     output: directory,
     url: "https://campustest.supabase.co",
-    publishableKey: "sb_publishable_test_only_not_a_real_key",
+    publishableKey: "sb_publishable_changed_test_only_not_a_real_key",
   });
+  const rebuilt = await fs.readFile(path.join(directory, "reset-password.html"), "utf8");
+  assert(!rebuilt.includes(`?v=${version}`));
 });
 test("Pages build fails before publishing a secret key or missing project configuration", async () => {
   await assert.rejects(
