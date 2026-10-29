@@ -50,7 +50,7 @@ The workflow installs only test dependencies, runs all tests, builds `dist/`, an
 
 The usual site address is `https://USERNAME.github.io/resonance-music-campus/`. Use the actual URL returned by the workflow. Paths work under a repository subdirectory as well as the account root.
 
-Once that URL is known, set the Supabase Auth Site URL to it. No social login, SMTP provider or paid session controls are required for the manually created owner's password sign-in. Password/account recovery is managed through your Supabase dashboard; `npm run reset-password` applies only to the separate local Node account.
+Once that URL is known, set the Supabase Auth Site URL to it. Add the exact `https://USERNAME.github.io/resonance-music-campus/reset-password.html` address to Auth Redirect URLs. The hosted sign-in page has a **Forgot your password?** link: request an email, open the newest recovery link, and choose a new password yourself. Recovery verifies the owner and signs out existing sessions. Supabase's default email service has delivery and recipient limits; check the dashboard if an email is rejected. No paid service is configured. `npm run reset-password` applies only to the separate local Node account.
 
 ## 4. Verify before using it for your work
 
