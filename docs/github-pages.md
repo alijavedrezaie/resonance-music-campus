@@ -2,7 +2,7 @@
 
 This is the selected online deployment path. GitHub Pages serves the public app, while a dedicated **Supabase Free** project handles email/password authentication and private account data. No paid Render instance, persistent disk, custom domain or paid Supabase feature is needed.
 
-**This configuration has been prepared locally. It is not a deployed website until the GitHub and Supabase account steps below are complete.**
+**Live site:** [Resonance Music Campus](https://alijavedrezaie.github.io/resonance-music-campus/). The dedicated Supabase Free project, owner registry, disabled public registration, GitHub repository variables, and Pages workflow are configured. The steps below document how to maintain or recreate this setup. Passwords remain managed in your Supabase dashboard.
 
 ## Privacy and cost boundaries
 
