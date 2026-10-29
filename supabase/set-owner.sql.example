@@ -1,0 +1,7 @@
+-- In the Supabase Dashboard, disable public sign-ups and manually create YOUR
+-- confirmed email/password user in Authentication > Users. Choose the password
+-- yourself there; do not put it in GitHub, SQL files or chat.
+-- Replace the placeholder below with that user's UUID and run in SQL Editor.
+-- Do not change an existing owner as part of routine deployment.
+insert into campus_private.owner(singleton,user_id)
+values(true,'REPLACE_WITH_YOUR_AUTH_USER_UUID'::uuid);
