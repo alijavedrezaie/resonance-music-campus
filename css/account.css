@@ -1,0 +1,305 @@
+[hidden] {
+  display: none !important;
+}
+.login-page {
+  min-height: 100svh;
+  background: #edf3f7;
+}
+.login-layout {
+  max-width: 1240px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100svh;
+  padding: 40px;
+  gap: 60px;
+  align-items: center;
+}
+.login-intro {
+  padding: 35px 0;
+}
+.login-intro .brand {
+  color: #153652;
+  margin-bottom: 60px;
+}
+.login-intro .brand small {
+  color: #4d6577;
+}
+.login-intro > .eyebrow {
+  display: block;
+  margin-bottom: 20px;
+}
+.login-intro h1 {
+  font-size: 2.2rem;
+  line-height: 1.4;
+  max-width: 16ch;
+}
+.login-intro p,
+.login-intro li {
+  color: #496174;
+}
+.login-intro ul {
+  padding-left: 24px;
+  line-height: 2;
+}
+.login-footnote {
+  font-size: 0.9375rem;
+  margin-top: 35px;
+}
+.login-card {
+  padding: 34px;
+  background: white;
+  border: 1px solid #cad9e3;
+  border-radius: 14px;
+  box-shadow: 0 20px 50px #1536520c;
+  min-width: 0;
+}
+.login-card h2 {
+  font-size: 1.6rem;
+  margin-top: 12px;
+}
+.account-form,
+.account-form > div:not(.form-actions) {
+  display: grid;
+  gap: 20px;
+}
+.account-form label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+  min-width: 0;
+}
+.account-form input,
+.account-form select,
+.account-form textarea {
+  font: inherit;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  background: #fbfdff;
+  border: 1px solid #6f8596;
+  border-radius: 6px;
+  padding: 12px;
+  min-height: 48px;
+}
+.account-form {
+  margin-top: 26px;
+}
+.account-form .note {
+  font-weight: 400;
+  margin: 0;
+}
+.account-form .password-toggle {
+  justify-self: start;
+}
+.account-form button[type="submit"] {
+  width: 100%;
+}
+.form-error {
+  margin: 0;
+  color: #92292f;
+  font-weight: 600;
+  line-height: 1.7;
+  white-space: normal;
+}
+.form-error:empty {
+  display: none;
+}
+.login-card > #recovery-help {
+  margin-top: 25px;
+}
+.password-toggle {
+  color: #1b6082;
+  border: 1px solid #9db6c7;
+  border-radius: 5px;
+  padding: 8px 12px;
+}
+.account-form .form-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.account-form .form-actions button {
+  width: auto;
+}
+.profile-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.65fr) minmax(0, 1.5fr);
+  gap: 24px;
+  align-items: start;
+}
+.profile-summary .profile-avatar {
+  width: 85px;
+  height: 85px;
+  background: #153652;
+  color: #8be7d1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.profile-summary h2 {
+  overflow-wrap: anywhere;
+}
+.profile-summary p {
+  overflow-wrap: anywhere;
+}
+.profile-summary .button {
+  width: 100%;
+  margin-top: 12px;
+}
+.profile-account-email {
+  font-size: 0.9375rem;
+  color: #4b6174;
+}
+.profile-form-panel h2 {
+  margin-bottom: 8px;
+}
+.account-status {
+  font-size: 0.875rem;
+  color: #4b6174;
+  text-align: right;
+  max-width: 20rem;
+}
+.account-notice {
+  max-width: 1360px;
+  margin: 20px auto;
+  padding: 20px 26px;
+  border: 2px solid #9b6e28;
+  border-radius: 8px;
+  background: #fff5e4;
+  color: #513a17;
+}
+.account-notice p {
+  margin-top: 0;
+}
+.account-notice .actions {
+  margin-top: 12px;
+}
+.sign-out-link {
+  background: transparent;
+  border: 1px solid #b1cadb;
+  color: inherit;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  padding: 8px 12px;
+}
+.sign-out-link:hover {
+  background: #ffffff12;
+}
+.session-note {
+  background: #edf5fa;
+  padding: 16px;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+}
+.profile-form-panel input[readonly] {
+  background: #eef3f7;
+  color: #4b6174;
+}
+@media (max-width: 1000px) {
+  .login-layout {
+    gap: 30px;
+    padding: 28px;
+  }
+  .login-intro h1 {
+    font-size: 1.8rem;
+  }
+  .login-card {
+    padding: 26px;
+  }
+  .profile-layout {
+    grid-template-columns: 1fr 1.5fr;
+  }
+  .account-status {
+    max-width: 100%;
+    text-align: left;
+  }
+  .campus-utilities {
+    gap: 10px;
+  }
+}
+@media (max-width: 760px) {
+  .login-layout {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 20px;
+    align-items: start;
+  }
+  .login-intro {
+    padding: 5px 0;
+  }
+  .login-intro .brand {
+    margin-bottom: 24px;
+  }
+  .login-intro h1 {
+    font-size: 1.6rem;
+    max-width: 100%;
+  }
+  .login-intro ul,
+  .login-footnote {
+    display: none;
+  }
+  .login-card {
+    padding: 22px;
+  }
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
+  .profile-summary .profile-avatar {
+    width: 68px;
+    height: 68px;
+  }
+  .account-notice {
+    margin: 16px 18px;
+    padding: 18px;
+  }
+  .account-status {
+    font-size: 0.875rem;
+  }
+  .account-form .form-actions button {
+    width: 100%;
+  }
+  .sign-out-link {
+    min-height: 44px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .login-page * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.account-notice {
+  position: static;
+  inset: auto;
+  width: auto;
+  display: block;
+}
+.login-card input[type="email"],
+.profile-form-panel input[type="email"],
+.login-card input[type="password"],
+.login-card input[type="text"] {
+  width: 100%;
+}
+@media (max-width: 760px) {
+  .login-intro h1,
+  .login-intro > .eyebrow,
+  .login-intro > p {
+    display: none;
+  }
+  .login-intro .brand {
+    margin-bottom: 8px;
+  }
+  .login-layout {
+    gap: 8px;
+  }
+  .login-card {
+    padding: 22px;
+  }
+  .login-intro {
+    padding-top: 0;
+  }
+}

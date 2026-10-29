@@ -1,0 +1,602 @@
+/* Worked examples: diagrams remain useful without audio or animation. */
+.lesson-lab {
+  margin-top: 22px;
+  border-top: 4px solid #278f9e;
+  overflow: hidden;
+}
+.lab-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.lab-type {
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: #e9f3f7;
+  padding: 6px 10px;
+  border-radius: 20px;
+  color: #31627a;
+}
+.lesson-lab > h2 {
+  font-size: 1.4375rem;
+  line-height: 1.4;
+  margin-bottom: 22px;
+  letter-spacing: -0.6px;
+}
+.visual-workspace {
+  border: 1px solid #d7e6ee;
+  border-radius: 9px;
+  padding: 18px;
+  background: linear-gradient(145deg, #f5fafc, #edf5f9);
+}
+.instrument-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.instrument-tabs button {
+  background: white;
+  border: 1px solid #c4d9e4;
+  border-radius: 5px;
+  padding: 9px 14px;
+  font-size: 0.9375rem;
+  color: #355b73;
+  min-height: 40px;
+}
+.instrument-tabs button[aria-pressed="true"] {
+  background: #153e58;
+  border-color: #153e58;
+  color: white;
+}
+.instrument-map,
+.lab-plot {
+  overflow-x: auto;
+  border-radius: 6px;
+  background: white;
+}
+.teaching-svg {
+  display: block;
+  width: 100%;
+  min-width: 550px;
+  height: auto;
+}
+.piano-white {
+  fill: #fff;
+  stroke: #9bafbf;
+  stroke-width: 1;
+}
+.piano-white.selected {
+  fill: #a9e6d8;
+  stroke: #408c83;
+}
+.piano-black {
+  fill: #19364d;
+  stroke: #19364d;
+}
+.piano-black.selected {
+  fill: #168474;
+  stroke: #0e5d52;
+}
+.piano-white.is-sounding,
+.piano-black.is-sounding {
+  fill: #f5c777;
+  stroke: #85551a;
+  stroke-width: 2.5;
+}
+.key-caption,
+.diagram-label {
+  fill: #34516a;
+  font:
+    0.875rem var(--font-body),
+    sans-serif;
+}
+.fret-line {
+  stroke: #a5b8c5;
+  stroke-width: 2;
+}
+.guitar-string {
+  stroke: #7692a5;
+}
+.fret-note {
+  fill: #246f82;
+  stroke: white;
+  stroke-width: 1.5;
+}
+.fret-caption {
+  fill: white;
+  font:
+    0.875rem var(--font-body),
+    sans-serif;
+}
+.visual-steps {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 15px 0 0;
+  padding: 0;
+}
+.visual-steps li {
+  position: relative;
+  flex: 1 1 120px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  border: 1px solid #cadde8;
+  border-radius: 6px;
+  padding: 14px;
+  background: white;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.visual-steps strong {
+  font-size: 1rem;
+  color: #21445c;
+  line-height: 1.5;
+}
+.visual-steps li > span:not(.step-index) {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #5a7286;
+}
+.step-index {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #317f94;
+  letter-spacing: 1px;
+}
+.visual-steps li.is-playing {
+  background: #d7f1e9;
+  border: 2px solid #278b78;
+  padding: 13px;
+}
+.beat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 0;
+}
+.beat-grid li {
+  text-align: center;
+  align-items: center;
+}
+.beat-grid li.is-playing:after {
+  content: "";
+  display: block;
+  width: 7px;
+  height: 7px;
+  background: #126d5b;
+  border-radius: 50%;
+  position: absolute;
+  top: 9px;
+  right: 9px;
+}
+.rest-symbol {
+  font-size: 1.375rem !important;
+  color: #54778c !important;
+}
+.lab-transport {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+.lab-transport .lab-range {
+  flex: 1 1 170px;
+  margin: 0;
+}
+.lab-range {
+  display: grid;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+  min-width: 0;
+  color: #3d6076;
+}
+.lab-range input[type="range"] {
+  width: 100%;
+  accent-color: #187c8c;
+  min-height: 30px;
+  margin: 0;
+  cursor: pointer;
+}
+.lab-range output {
+  font:
+    700 0.9375rem var(--font-body),
+    sans-serif;
+  color: #1c6e85;
+}
+.lab-range select {
+  font-size: 0.9375rem;
+  max-width: 100%;
+}
+.lab-transport .button:disabled {
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+.playback-status {
+  flex: 1 1 100%;
+  font-size: 0.875rem;
+  color: #5c7285;
+  line-height: 1.7;
+  min-height: 20px;
+}
+.note-audition {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+.note-audition button {
+  background: white;
+  border: 1px solid #c7d9e4;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: #244c66;
+  min-height: 40px;
+}
+.note-audition small {
+  font-size: 0.875rem;
+  background: #edf4f7;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+.note-audition button:hover {
+  background: #eff8f8;
+}
+.note-audition button.is-playing {
+  background: #d4f0e4;
+  border-color: #25876b;
+  box-shadow: 0 0 0 1px #25876b;
+}
+.teaching-notes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 24px;
+}
+.teaching-notes > div {
+  padding: 18px;
+  background: #f5f8fb;
+  border-radius: 7px;
+  border-left: 3px solid #bad3df;
+}
+.teaching-notes > div:last-child {
+  background: #eff8f4;
+  border-left-color: #70b9a4;
+}
+.teaching-notes h3 {
+  font-size: 1rem;
+  margin: 0 0 8px;
+}
+.teaching-notes p {
+  font-size: 1rem;
+  margin: 0;
+  line-height: 1.85;
+}
+.visual-check {
+  border: 1px solid #d7e2eb;
+  border-radius: 8px;
+  padding: 18px;
+  margin: 24px 0 0;
+  min-width: 0;
+}
+.visual-check legend {
+  font:
+    700 0.9375rem var(--font-body),
+    sans-serif;
+  padding: 0 7px;
+}
+.visual-check > p {
+  font-size: 1rem;
+  margin-top: 0;
+}
+.check-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.check-options .button {
+  font-size: 0.9375rem;
+  text-align: left;
+  line-height: 1.6;
+  white-space: normal;
+  justify-content: flex-start;
+}
+.check-options button[aria-pressed="true"] {
+  border: 2px solid #2d7a96;
+  background: #eaf5fa;
+}
+.check-feedback {
+  font-size: 0.9375rem;
+  line-height: 1.8;
+  margin: 14px 0 0 !important;
+}
+.check-feedback:empty {
+  display: none;
+}
+.check-feedback[data-correct="true"] {
+  background: #e4f3e9;
+  border-radius: 5px;
+  padding: 13px;
+  color: #275e46;
+}
+.check-feedback[data-correct="false"] {
+  background: #fff3dc;
+  border-radius: 5px;
+  padding: 13px;
+  color: #78561d;
+}
+.lab-transcript {
+  font-size: 0.9375rem;
+  margin-top: 20px;
+  color: #526f84;
+}
+.lab-transcript summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 8px 0;
+}
+.lab-transcript ol {
+  line-height: 1.9;
+  padding-left: 22px;
+}
+.lab-reference {
+  font-size: 0.875rem;
+  line-height: 1.8;
+  color: #657b8c;
+  border-top: 1px solid #e0e9ee;
+  padding-top: 16px;
+  margin-bottom: 0;
+}
+.lab-reference a {
+  color: #1a6e8b;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.parameter-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  margin: 18px 0 6px;
+}
+.graph-grid {
+  stroke: #e0eaf0;
+  stroke-width: 1;
+}
+.graph-curve {
+  stroke: #198c92;
+  stroke-width: 4;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.graph-reference {
+  stroke: #9fb2bf;
+  stroke-width: 1.5;
+  stroke-dasharray: 5 5;
+}
+.graph-threshold {
+  stroke: #a57534;
+  stroke-width: 2;
+  stroke-dasharray: 4 3;
+}
+.graph-dot {
+  fill: #dc9b48;
+  stroke: white;
+  stroke-width: 2;
+}
+.plot-caption {
+  font-size: 0.9375rem;
+  color: #49667d;
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+.pan-stage {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  height: 100px;
+  padding: 0 22px;
+  background: linear-gradient(90deg, #def0f5, #fff, #dcefe8);
+  border-radius: 7px;
+  margin-bottom: 14px;
+  font-size: 0.875rem;
+  color: #365b73;
+  font-weight: 700;
+}
+.pan-position {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.75rem;
+  color: #238b8d;
+  top: 28px;
+  transition: left 0.1s;
+}
+@media (max-width: 1150px) {
+  .lesson-lab {
+    max-width: 100%;
+  }
+  .teaching-svg {
+    min-width: 520px;
+  }
+}
+@media (max-width: 720px) {
+  .lesson-lab {
+    padding: 18px;
+  }
+  .lesson-lab > h2 {
+    font-size: 1.25rem;
+  }
+  .lab-heading .eyebrow {
+    font-size: 0.875rem;
+  }
+  .lab-type {
+    font-size: 0.875rem;
+  }
+  .visual-workspace {
+    padding: 12px;
+  }
+  .teaching-svg {
+    min-width: 560px;
+  }
+  .instrument-map:after,
+  .lab-plot:after {
+    content: "Scroll sideways to see the full diagram →";
+    display: block;
+    position: sticky;
+    left: 0;
+    font-size: 0.875rem;
+    color: #57768b;
+    padding: 10px;
+    background: #f8fbfd;
+  }
+  .teaching-notes {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .visual-steps li {
+    flex-basis: 110px;
+    padding: 11px;
+  }
+  .visual-steps li.is-playing {
+    padding: 10px;
+  }
+  .visual-steps strong {
+    font-size: 0.9375rem;
+  }
+  .beat-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .beat-grid li {
+    padding: 9px 4px;
+  }
+  .beat-grid li.is-playing {
+    padding: 8px 3px;
+  }
+  .beat-grid li > span:not(.step-index) {
+    font-size: 0.875rem;
+  }
+  .beat-grid strong {
+    font-size: 0.875rem;
+  }
+  .lab-transport .lab-range {
+    flex-basis: 100%;
+    margin-top: 8px;
+  }
+  .visual-check {
+    padding: 14px;
+  }
+  .check-options {
+    flex-direction: column;
+  }
+  .check-options button {
+    width: 100%;
+  }
+  .parameter-controls {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .note-audition button {
+    font-size: 0.875rem;
+  }
+  .teaching-notes p {
+    font-size: 0.9375rem;
+  }
+  .instrument-tabs button {
+    font-size: 0.875rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lesson-lab * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+@media print {
+  .lab-transport,
+  .note-audition,
+  .parameter-controls,
+  .instrument-tabs,
+  .check-options {
+    display: none !important;
+  }
+  .lesson-lab {
+    overflow: visible;
+    break-inside: auto;
+  }
+  .instrument-map,
+  .lab-plot {
+    overflow: visible;
+  }
+  .teaching-svg {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .visual-workspace,
+  .teaching-notes > div {
+    background: white;
+  }
+  .visual-steps li {
+    break-inside: avoid;
+  }
+  .lab-transcript {
+    display: none;
+  }
+  .teaching-notes {
+    grid-template-columns: 1fr 1fr;
+  }
+  .visual-check {
+    break-inside: avoid;
+  }
+}
+.lesson-layout > div {
+  min-width: 0;
+}
+.lesson-lab .lab-range select {
+  white-space: normal;
+}
+.lesson-lab {
+  scroll-margin-top: 80px;
+}
+.black-key-caption {
+  fill: white;
+  font:
+    0.875rem var(--font-body),
+    sans-serif;
+  pointer-events: none;
+}
+@keyframes beat-emphasis {
+  from {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+.beat-grid .is-playing strong {
+  animation: beat-emphasis 0.22s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .beat-grid .is-playing strong {
+    animation: none;
+  }
+}
