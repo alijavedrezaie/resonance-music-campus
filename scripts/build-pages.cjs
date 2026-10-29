@@ -1,6 +1,7 @@
 /* Explicit allowlist: never copy the repository root into a Pages artifact. */
 const fs = require("node:fs/promises");
 const path = require("node:path");
+const { createHash } = require("node:crypto");
 const { validateConfig } = require("../js/backend.js");
 const ROOT = path.resolve(__dirname, "..");
 const FILES = [
@@ -71,6 +72,21 @@ async function buildPages({
     path.join(destination, "js/hosting-config.js"),
     `/* Public project settings. No secret/service-role key. */\nglobalThis.CAMPUS_CONFIG = Object.freeze(${JSON.stringify(config, null, 2)});\n`,
   );
+  // Keep new pages from running older cached account scripts on GitHub Pages.
+  const digest = createHash("sha256");
+  for (const file of [...FILES, "js/hosting-config.js"]) {
+    digest.update(file);
+    digest.update(await fs.readFile(path.join(destination, file)));
+  }
+  const version = digest.digest("hex").slice(0, 16);
+  for (const file of [...FILES.filter((name) => name.endsWith(".html")), "index.html"]) {
+    const target = path.join(destination, file);
+    const html = await fs.readFile(target, "utf8");
+    await fs.writeFile(target, html.replace(
+      /((?:src|href)=")((?:js|css|assets)\/[^"?]+)(")/g,
+      `$1$2?v=${version}$3`,
+    ));
+  }
   await fs.writeFile(path.join(destination, ".nojekyll"), "");
   return { directory: destination, files: FILES.length + 4 };
 }
