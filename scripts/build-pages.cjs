@@ -6,6 +6,7 @@ const ROOT = path.resolve(__dirname, "..");
 const FILES = [
   "index.html.html",
   "login.html",
+  "reset-password.html",
   ...[
     "styles",
     "campus",
@@ -19,6 +20,7 @@ const FILES = [
     "backend",
     "state-validation",
     "login",
+    "recovery",
     "app",
     "data",
     "lesson-data",
