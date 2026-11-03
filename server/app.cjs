@@ -32,6 +32,7 @@ const privateFiles = new Set([
   "/js/app.js",
   "/js/guitar-tools.js",
   "/js/guitar-analysis.js",
+  "/js/guitar-service.js",
   "/css/guitar-tools.css",
   "/js/data.js",
   "/js/lesson-data.js",

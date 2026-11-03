@@ -61,6 +61,7 @@ test("Signed-out requests cannot read private pages, lessons, images, state or d
     "/js/app.js",
     "/js/guitar-tools.js",
     "/js/guitar-analysis.js",
+    "/js/guitar-service.js",
     "/css/guitar-tools.css",
     "/js/data.js",
     "/assets/courses/theory.jpg",

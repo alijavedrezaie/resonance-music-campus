@@ -68,6 +68,7 @@ function fixture({ owner = true, expiresIn = 3600 } = {}) {
       });
     if (url.endsWith("/campus_save_state"))
       return response({ revision: body.p_revision + 1 });
+    if (url.endsWith("/functions/v1/guitar-youtube")) return response({job_id:"test_job_123",status:"processing"});
     if (url.endsWith("/campus_update_profile")) return response(body.p_profile);
     throw Error("Unexpected request " + url);
   };
@@ -196,4 +197,16 @@ test("Local mode keeps the same-origin server interface", async () => {
   });
   assert.equal(sent.url, "/api/login");
   assert.equal(sent.options.headers["X-Campus-Request"], "1");
+});
+
+test("YouTube analysis uses the active owner's authenticated Edge Function connection", async () => {
+  const f = fixture();
+  await assert.rejects(f.backend.request("/api/guitar-youtube", "POST", {action:"submit",videoId:"2Vv-BfVoq4g"}), e => e.status === 401);
+  await f.backend.request("/api/login", "POST", {email:"owner@example.test",password:"test"});
+  const result = await f.backend.request("/api/guitar-youtube", "POST", {action:"submit",videoId:"2Vv-BfVoq4g"});
+  assert.equal(result.status,"processing");
+  const call=f.calls.find(c=>c.url.endsWith("/functions/v1/guitar-youtube"));
+  assert.equal(call.options.headers.Authorization,"Bearer test-access");
+  assert.equal(call.options.headers.apikey,CONFIG.publishableKey);
+  assert.deepEqual(call.body,{action:"submit",videoId:"2Vv-BfVoq4g"});
 });

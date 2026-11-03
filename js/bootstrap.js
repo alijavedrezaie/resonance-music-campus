@@ -175,6 +175,7 @@ const CampusAccount = (() => {
         "js/data.js",
         "js/lesson-data.js",
         "js/lesson-visuals.js",
+        "js/guitar-service.js",
         "js/guitar-tools.js",
         "js/app.js",
       ])

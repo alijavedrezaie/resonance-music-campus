@@ -22,7 +22,7 @@ test("Pages artifact contains only website files and works at a repository subpa
     );
   assert(index.includes("js/backend.js"));
   assert(index.includes('href="#guitar"'));
-  for (const asset of ["js/guitar-tools.js", "js/guitar-analysis.js", "css/guitar-tools.css"])
+  for (const asset of ["js/guitar-tools.js", "js/guitar-analysis.js", "js/guitar-service.js", "css/guitar-tools.css"])
     assert((await fs.stat(path.join(directory, asset))).isFile());
   assert(index.includes("js/bootstrap.js"));
   assert(login.includes("js/hosting-config.js"));

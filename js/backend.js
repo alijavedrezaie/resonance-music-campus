@@ -197,6 +197,8 @@
       };
     }
     async function request(route, method = "GET", body) {
+      if (!cloud && route === "/api/guitar-youtube")
+        throw error("YouTube analysis uses your online campus. Open the published campus to analyze a link.", 503);
       if (!cloud)
         return network(localUrl(route), {
           method,
@@ -328,6 +330,17 @@
           state: result.state === null ? null : validateState(result.state),
           revision: Number(result.revision),
         };
+      }
+      if (route === "/api/guitar-youtube") {
+        const token = await access();
+        try {
+          return await network(`${config.url.replace(/\/$/, "")}/functions/v1/guitar-youtube`, {
+            method: "POST", headers: cloudHeaders(token), body: JSON.stringify(body),
+          });
+        } catch (issue) {
+          if (issue.status === 404) throw error("YouTube analysis needs its Supabase function deployed. Connect Supabase to finish setup.", 503);
+          throw issue;
+        }
       }
       if (route === "/api/profile") {
         const result = await rpc("campus_update_profile", { p_profile: body });

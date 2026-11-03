@@ -29,6 +29,7 @@ const FILES = [
     "lesson-visuals",
     "guitar-tools",
     "guitar-analysis",
+    "guitar-service",
   ].map((n) => `js/${n}.js`),
   "assets/logo.svg",
   ...["theory", "production", "guitar", "piano"].map(
