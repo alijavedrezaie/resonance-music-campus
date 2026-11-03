@@ -64,3 +64,9 @@ Implementation references: [Node SQLite](https://nodejs.org/download/release/v22
 ### Recover progress from an old Live Server preview
 
 If the private-server instructions now appear in your old preview before you could export your work, open **`legacy-export.html` at that same old origin** (for example `http://127.0.0.1:5500/legacy-export.html` while that existing Live Server is running). Click Download my previous progress, then import the JSON after signing into the new private campus. This utility leaves the original data unchanged and is deliberately not served by the private Node server. After recovering the old data, stop using the static preview for this application.
+
+## Guitar tools
+
+Open **Guitar tools** in the campus navigation (`#guitar`), or **Find guitar chords** from Songbook. This is part of the campus application and uses the existing account. Save a chart with the heart button to add its chords, suggested rhythm, practice tempo and video reference to the private campus Songbook and regular backups.
+
+YouTube URLs load a listening video. Direct YouTube-to-chord transcription is not connected: upload an audio file (up to 30 MB) for experimental, on-device major/minor chord estimates from its first three minutes. Tempo and strumming are adjustable practice suggestions, not detected. The metronome does not synchronize to video/audio playback. Navigation stops audio and analysis; charts remain available during the current campus session, but recording playback requires re-uploading after leaving the tool. No audio file is uploaded or included in backups.

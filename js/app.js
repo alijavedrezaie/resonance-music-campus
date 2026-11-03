@@ -254,7 +254,7 @@ function studio() {
       "Give your ideas somewhere to grow.",
       "Keep lyrics, project links, chord progressions and reflections together.",
     ) +
-    `<div class="panel"><h3>Capture a song idea</h3><form id="song-form"><div class="tool-row"><input name="title" type="text" required maxlength="150" placeholder="Song title or working idea" aria-label="Song title"><select name="stage" aria-label="Project stage"><option>Idea</option><option>Demo</option><option>Recording</option><option>Mixing</option><option>Finished</option></select></div><textarea name="body" required placeholder="Lyrics, key, tempo, chords, recording links, and the next small step…" aria-label="Song notes"></textarea><button class="button">Add to songbook +</button></form></div><div class="section-head"><h2>Your songs</h2><span class="caps">${state.songs.length} IDEAS SAVED</span></div>${state.songs.length ? state.songs.map((s, i) => `<section class="panel song"><span class="caps">${esc(s.stage)}</span><h3>${esc(s.title)}</h3><textarea data-song="${i}" aria-label="Notes for ${esc(s.title)}">${esc(s.body)}</textarea><p class="note">Notes save to your private campus. Audio stays in your own files; paste a link here to keep a reference.</p><button class="button ghost" data-delete-song="${i}">Delete idea</button></section>`).join("") : '<div class="empty">Your first idea belongs here. A lyric, a chord change, a voice memo — start small.</div>'}<div class="section-head"><h2>Portfolio milestones</h2></div><div class="week-list">${[15, 31, 47, 63].map((id) => weekRow(DATA.weeks[id])).join("")}</div>`
+    `<div class="panel"><div class="section-head" style="margin-top:0"><h3>Capture a song idea</h3><a href="#guitar">Find guitar chords ↗</a></div><form id="song-form"><div class="tool-row"><input name="title" type="text" required maxlength="150" placeholder="Song title or working idea" aria-label="Song title"><select name="stage" aria-label="Project stage"><option>Idea</option><option>Demo</option><option>Recording</option><option>Mixing</option><option>Finished</option></select></div><textarea name="body" required placeholder="Lyrics, key, tempo, chords, recording links, and the next small step…" aria-label="Song notes"></textarea><button class="button">Add to songbook +</button></form></div><div class="section-head"><h2>Your songs</h2><span class="caps">${state.songs.length} IDEAS SAVED</span></div>${state.songs.length ? state.songs.map((s, i) => `<section class="panel song"><span class="caps">${esc(s.stage)}</span><h3>${esc(s.title)}</h3><textarea data-song="${i}" aria-label="Notes for ${esc(s.title)}">${esc(s.body)}</textarea><p class="note">Notes save to your private campus. Audio stays in your own files; paste a link here to keep a reference.</p><button class="button ghost" data-delete-song="${i}">Delete idea</button></section>`).join("") : '<div class="empty">Your first idea belongs here. A lyric, a chord change, a voice memo — start small.</div>'}<div class="section-head"><h2>Portfolio milestones</h2></div><div class="week-list">${[15, 31, 47, 63].map((id) => weekRow(DATA.weeks[id])).join("")}</div>`
   );
 }
 function progress() {
@@ -449,6 +449,7 @@ function profile() {
 
 function render() {
   LessonLab.stop();
+  GuitarTools.stop();
   const parts = (location.hash.slice(1) || "home").split("/"),
     page = parts[0];
   document
@@ -462,7 +463,7 @@ function render() {
       ),
     );
   document.querySelector("#crumb").innerHTML =
-    `<a href="#home">My campus</a> <i>/</i> ${esc({ home: "Overview", assignments: "Assignments", planner: "Study planner", help: "Student help", curriculum: "Curriculum", week: "Weekly module", course: "Course", quiz: "Knowledge check", library: "Resource library", studio: "Songbook", progress: "Progress", settings: "Study settings", profile: "Your profile" }[page] || "Dashboard")}`;
+    `<a href="#home">My campus</a> <i>/</i> ${esc({ home: "Overview", assignments: "Assignments", planner: "Study planner", help: "Student help", curriculum: "Curriculum", week: "Weekly module", course: "Course", quiz: "Knowledge check", library: "Resource library", studio: "Songbook", guitar: "Guitar tools", progress: "Progress", settings: "Study settings", profile: "Your profile" }[page] || "Dashboard")}`;
   if (page === "course") {
     const ci = Number(parts[1]),
       si = Number(parts[2]);
@@ -493,6 +494,7 @@ function render() {
         curriculum,
         library,
         studio,
+        guitar: () => GuitarTools.render(),
         progress,
         settings,
         profile,
@@ -508,11 +510,18 @@ function render() {
   }
   if (page === "library") filterResources();
   LessonLab.mount();
+  if (page === "guitar") GuitarTools.mount(app.querySelector(".strum-tool"), (chart) => {
+    if (state.songs.length >= 500) { toast("Your Songbook is full. Export a backup and make room first."); return false; }
+    if (state.songs.some((song) => song.title === chart.title && song.body === chart.body)) { toast("This chart is already in your campus Songbook."); return false; }
+    state.songs.push(chart);
+    save();
+    return true;
+  });
   document.querySelectorAll(".campus-nav a").forEach((a) => {
     if (a.classList.contains("active")) a.setAttribute("aria-current", "page");
     else a.removeAttribute("aria-current");
   });
-  document.title = `${{ home: "Overview", curriculum: "My courses", assignments: "Assignments", planner: "Study planner", help: "Student help", week: "Weekly module", course: "Course", quiz: "Knowledge check", library: "Resources", studio: "Songbook", progress: "Progress", settings: "Settings", profile: "Profile" }[page] || "Overview"} · Resonance Music Campus`;
+  document.title = `${{ home: "Overview", curriculum: "My courses", assignments: "Assignments", planner: "Study planner", help: "Student help", week: "Weekly module", course: "Course", quiz: "Knowledge check", library: "Resources", studio: "Songbook", guitar: "Guitar tools", progress: "Progress", settings: "Settings", profile: "Profile" }[page] || "Overview"} · Resonance Music Campus`;
   app.classList.remove("page-enter");
   void app.offsetWidth;
   app.classList.add("page-enter");

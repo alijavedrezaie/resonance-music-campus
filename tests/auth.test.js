@@ -59,6 +59,9 @@ test("Signed-out requests cannot read private pages, lessons, images, state or d
   for (const route of [
     "/api/bootstrap",
     "/js/app.js",
+    "/js/guitar-tools.js",
+    "/js/guitar-analysis.js",
+    "/css/guitar-tools.css",
     "/js/data.js",
     "/assets/courses/theory.jpg",
   ])

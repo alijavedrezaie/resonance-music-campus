@@ -15,6 +15,7 @@ const FILES = [
     "accessibility",
     "account",
     "responsive",
+    "guitar-tools",
   ].map((n) => `css/${n}.css`),
   ...[
     "bootstrap",
@@ -26,6 +27,8 @@ const FILES = [
     "data",
     "lesson-data",
     "lesson-visuals",
+    "guitar-tools",
+    "guitar-analysis",
   ].map((n) => `js/${n}.js`),
   "assets/logo.svg",
   ...["theory", "production", "guitar", "piano"].map(

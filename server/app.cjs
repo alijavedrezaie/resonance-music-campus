@@ -30,6 +30,9 @@ const privateFiles = new Set([
   "/index.html.html",
   "/js/bootstrap.js",
   "/js/app.js",
+  "/js/guitar-tools.js",
+  "/js/guitar-analysis.js",
+  "/css/guitar-tools.css",
   "/js/data.js",
   "/js/lesson-data.js",
   "/js/lesson-visuals.js",
@@ -181,7 +184,7 @@ function createCampusServer(options = {}) {
     res.setHeader("Referrer-Policy", "same-origin");
     res.setHeader(
       "Content-Security-Policy",
-      "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; media-src 'self' blob:; object-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'",
+      "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; media-src 'self' blob:; frame-src https://www.youtube-nocookie.com; worker-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'",
     );
     res.setHeader(
       "Permissions-Policy",

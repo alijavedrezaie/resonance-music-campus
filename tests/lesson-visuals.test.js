@@ -302,7 +302,7 @@ test("All weekly module pages include their matching visual teaching panel", () 
     clearTimeout,
   });
   vm.runInContext(
-    ["data.js", "lesson-data.js", "lesson-visuals.js", "app.js"]
+    ["data.js", "lesson-data.js", "lesson-visuals.js", "guitar-tools.js", "app.js"]
       .map(source)
       .join("\n"),
     context,

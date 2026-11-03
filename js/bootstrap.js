@@ -135,6 +135,7 @@ const CampusAccount = (() => {
     try {
       await request("/api/logout", "POST", {});
       if (typeof LessonLab !== "undefined") LessonLab.stop();
+      if (typeof GuitarTools !== "undefined") GuitarTools.stop();
       location.replace(loginLocation());
     } catch (error) {
       if (error.status === 401) {
@@ -174,6 +175,7 @@ const CampusAccount = (() => {
         "js/data.js",
         "js/lesson-data.js",
         "js/lesson-visuals.js",
+        "js/guitar-tools.js",
         "js/app.js",
       ])
         await new Promise((resolve, reject) => {
@@ -235,6 +237,7 @@ const CampusAccount = (() => {
       .then((session) => {
         if (!session.authenticated) {
           if (typeof LessonLab !== "undefined") LessonLab.stop();
+          if (typeof GuitarTools !== "undefined") GuitarTools.stop();
           if (pending)
             notice(
               "Your session ended. Download your unsaved work, then sign in again.",
