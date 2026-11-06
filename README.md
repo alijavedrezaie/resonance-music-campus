@@ -74,3 +74,23 @@ Paste a YouTube URL and select **Find chords** to submit it to Magic Chords thro
 **Deployment requirement:** deploy `supabase/functions/guitar-youtube/` to the campus's existing Supabase project before using URL analysis. See [the setup guide](docs/guitar-youtube.md). The function has no paid API key or added database schema. Until it is deployed, the interface reports the missing setup rather than inventing chords.
 
 The provider's public API is experimental and rate-limited. Restricted/unavailable YouTube videos can fail. Chord/key/tempo estimates need checking by ear. Strumming is suggested, not detected; the metronome is independent of recording playback. Transposition changes the chart and synthesized chord previews, not recording pitch. Optional audio uploads (up to 30 MB) remain available for on-device major/minor analysis of the first three minutes. Audio files are not uploaded or included in backups.
+
+## Project layout
+
+- `index.html`, `login.html`, `reset-password.html`: campus and account pages.
+- `js/`, `css/`, `assets/`: browser code, styles and lesson assets.
+- `server/`: local HTTP server and SQLite storage.
+- `config/static-assets.cjs`: shared server/build asset allowlist. Add served assets here.
+- `scripts/`: Pages build and local password recovery commands.
+- `tests/`: automated checks; `docs/`: deployment and feature guides.
+- `supabase/`: hosted backend configuration, migrations and Edge Functions.
+- `strum-studio/`: separate standalone Git repository; the campus uses `js/guitar-*.js`.
+
+`index.html.html` remains a compatibility URL in the server and generated Pages artifact.
+Local `*-preview.png` screenshots are ignored development artifacts.
+
+### Lyrics with chords above the words
+
+In **Guitar tools → Lyrics & chords**, paste lyrics and add bracketed chords before the syllable where each chord changes, for example `[G]Morning light, [D]take it slow`. Click a chord from the current chart to insert it at the cursor, or enter your own chord such as `Am7` or `D/F#`. The preview places chords above the lyrics and keeps them attached as lines wrap. Transpose changes both the chart and the lyrics sheet.
+
+Use **Save lyrics & chords to Songbook** to keep the sheet with your private songs and backups. In Songbook, expand **Read lyrics & chords** to play from the saved sheet; editing its bracketed chords updates the reading view. Text export includes the lyrics and transposed chord markers. Use **Generate lyrics from video** to transcribe a pasted YouTube link through Magic Chords. Review the estimated words before saving. Existing drafts remain unchanged until you choose to replace them. Transcription shares the provider request limits and may fail for restricted videos or unclear vocals. Chord placement remains manual. Draft edits in Guitar tools stay in the current tab until saved.

@@ -4,38 +4,13 @@ const path = require("node:path");
 const { createHash } = require("node:crypto");
 const { validateConfig } = require("../js/backend.js");
 const ROOT = path.resolve(__dirname, "..");
+const { PUBLIC_FILES, PRIVATE_FILES } = require("../config/static-assets.cjs");
 const FILES = [
-  "index.html.html",
-  "login.html",
-  "reset-password.html",
-  ...[
-    "styles",
-    "campus",
-    "lessons",
-    "accessibility",
-    "account",
-    "responsive",
-    "guitar-tools",
-  ].map((n) => `css/${n}.css`),
-  ...[
-    "bootstrap",
-    "backend",
-    "state-validation",
-    "login",
-    "recovery",
-    "app",
-    "data",
-    "lesson-data",
-    "lesson-visuals",
-    "guitar-tools",
-    "guitar-analysis",
-    "guitar-service",
-  ].map((n) => `js/${n}.js`),
-  "assets/logo.svg",
-  ...["theory", "production", "guitar", "piano"].map(
-    (n) => `assets/courses/${n}.jpg`,
-  ),
-];
+  ...PUBLIC_FILES.filter((file) => file !== "/js/hosting-config.js"),
+  ...PRIVATE_FILES,
+  "/reset-password.html",
+  "/js/recovery.js",
+].map((file) => file.slice(1));
 async function buildPages({
   output = path.join(ROOT, "dist"),
   url = process.env.SUPABASE_URL,
@@ -69,8 +44,8 @@ async function buildPages({
     await fs.copyFile(path.join(ROOT, file), target);
   }
   await fs.copyFile(
-    path.join(ROOT, "index.html.html"),
-    path.join(destination, "index.html"),
+    path.join(ROOT, "index.html"),
+    path.join(destination, "index.html.html"),
   );
   await fs.writeFile(
     path.join(destination, "js/hosting-config.js"),
@@ -83,13 +58,19 @@ async function buildPages({
     digest.update(await fs.readFile(path.join(destination, file)));
   }
   const version = digest.digest("hex").slice(0, 16);
-  for (const file of [...FILES.filter((name) => name.endsWith(".html")), "index.html"]) {
+  for (const file of [
+    ...FILES.filter((name) => name.endsWith(".html")),
+    "index.html.html",
+  ]) {
     const target = path.join(destination, file);
     const html = await fs.readFile(target, "utf8");
-    await fs.writeFile(target, html.replace(
-      /((?:src|href)=")((?:js|css|assets)\/[^"?]+)(")/g,
-      `$1$2?v=${version}$3`,
-    ));
+    await fs.writeFile(
+      target,
+      html.replace(
+        /((?:src|href)=")((?:js|css|assets)\/[^"?]+)(")/g,
+        `$1$2?v=${version}$3`,
+      ),
+    );
   }
   await fs.writeFile(path.join(destination, ".nojekyll"), "");
   return { directory: destination, files: FILES.length + 4 };

@@ -174,3 +174,35 @@ html[data-contrast=high] .strum-tool { --strum-soft: #fff; --strum-surface: #fff
 .strum-tool .chord-card svg { width: 7rem; height: 8rem; }
 .strum-tool .chord-card p { font-size: .75rem; }
 .strum-tool .cover>small,.strum-tool .cover-bottom { font-size: .75rem; }
+
+.strum-tool .analysis-panel { margin: 1rem 0; padding: 1rem; border: 1px solid var(--orange); border-radius: 6px; background: var(--strum-soft); }
+.strum-tool .analysis-panel[data-state=error] { border-color: #a53232; background: #fff3f1; }
+.strum-tool .analysis-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.strum-tool .analysis-heading button { border: 1px solid var(--line); border-radius: 4px; background: var(--strum-surface); padding: .2rem .8rem; }
+.strum-tool .analysis-panel p { margin: .5rem 0; }
+.strum-tool .analysis-panel progress { display: block; width: 100%; height: 16px; margin: .75rem 0; accent-color: var(--orange); }
+.strum-tool .analysis-panel small { color: var(--muted); }
+
+/* Shared by the guitar editor and saved Songbook sheets. */
+.lyrics-sheet { font-size: 1.125rem; line-height: 1.7; padding: 1rem; background: var(--strum-surface, #fff); border: 1px solid var(--line); border-radius: 6px; overflow-wrap: anywhere; }
+.lyrics-sheet .lyrics-line { min-height: 1.7em; white-space: pre-wrap; }
+.lyrics-sheet .lyrics-segment { display: inline-grid; grid-template-rows: 1.5em auto; vertical-align: bottom; max-width: 100%; white-space: pre-wrap; }
+.lyrics-sheet .lyrics-chord { color: var(--orange); font-weight: 700; font-size: .95em; line-height: 1.5; padding-right: .4em; }
+.lyrics-sheet .lyrics-word { min-width: 0; }
+.strum-tool .lyrics-editor { padding: 1.5rem 0; }
+.strum-tool .lyrics-editor>label { display: block; font-weight: 700; margin-top: .8rem; }
+.strum-tool .lyrics-editor textarea, .strum-tool #lyricsTitle { display: block; width: 100%; padding: .7rem; border: 1px solid var(--line); border-radius: 5px; font: inherit; color: inherit; background: var(--strum-surface); }
+.strum-tool .lyrics-editor textarea { resize: vertical; min-height: 180px; }
+.strum-tool .lyrics-chord-palette, .strum-tool .lyrics-insert, .strum-tool .lyrics-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin: 1rem 0; }
+.strum-tool .lyrics-chord-palette button, .strum-tool .lyrics-insert button, .strum-tool .lyrics-actions button:not(.primary) { padding: .4rem .8rem; border: 1px solid var(--line); border-radius: 5px; background: var(--strum-surface); }
+.strum-tool .lyrics-insert input { min-width: 0; width: 10rem; padding: .5rem; border: 1px solid var(--line); border-radius: 5px; background: var(--strum-surface); color: inherit; }
+.strum-tool #lyricsHelp, .strum-tool #lyricsStatus { font-size: .875rem; color: var(--muted); }
+.song-sheet { margin: 1rem 0; }
+.song-sheet summary { cursor: pointer; font-weight: 700; padding: .5rem 0; }
+
+.strum-tool .lyrics-video-form { display: flex; flex-wrap: wrap; gap: .6rem; padding: 1rem; margin-bottom: 1rem; background: var(--strum-soft); border: 1px solid var(--line); border-radius: 6px; }
+.strum-tool .lyrics-video-form label { flex-basis: 100%; font-weight: 700; }
+.strum-tool .lyrics-video-form input[type=url] { flex: 1 1 220px; background: var(--strum-surface); border: 1px solid var(--line); padding: .6rem; border-radius: 4px; }
+.strum-tool #lyricsGenerationProgress { width: 100%; height: 16px; accent-color: var(--orange); }
+.strum-tool #lyricsGenerationElapsed { display: block; color: var(--muted); }
+.strum-tool #generatedLyricsPanel { padding: 1rem; margin: 1rem 0; border: 1px solid var(--orange); border-radius: 6px; }

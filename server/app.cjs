@@ -14,35 +14,9 @@ const mime = {
   ".jpg": "image/jpeg",
   ".png": "image/png",
 };
-const publicFiles = new Set([
-  "/login.html",
-  "/js/login.js",
-  "/js/hosting-config.js",
-  "/js/backend.js",
-  "/js/state-validation.js",
-  "/assets/logo.svg",
-  "/css/styles.css",
-  "/css/campus.css",
-  "/css/accessibility.css",
-  "/css/account.css",
-]);
-const privateFiles = new Set([
-  "/index.html.html",
-  "/js/bootstrap.js",
-  "/js/app.js",
-  "/js/guitar-tools.js",
-  "/js/guitar-analysis.js",
-  "/js/guitar-service.js",
-  "/css/guitar-tools.css",
-  "/js/data.js",
-  "/js/lesson-data.js",
-  "/js/lesson-visuals.js",
-  "/css/lessons.css",
-  "/css/responsive.css",
-  ...["theory", "production", "guitar", "piano"].map(
-    (n) => `/assets/courses/${n}.jpg`,
-  ),
-]);
+const { PUBLIC_FILES, PRIVATE_FILES } = require("../config/static-assets.cjs");
+const publicFiles = new Set(PUBLIC_FILES);
+const privateFiles = new Set(PRIVATE_FILES);
 function createCampusServer(options = {}) {
   const production =
     options.production ?? process.env.NODE_ENV === "production";
@@ -343,10 +317,12 @@ function createCampusServer(options = {}) {
       if (!["GET", "HEAD"].includes(req.method))
         return json(res, 405, { error: "Method not allowed." });
       if (route === "/")
-        return redirect(res, session(req) ? "/index.html.html" : "/login.html");
+        return redirect(res, session(req) ? "/index.html" : "/login.html");
       if (route === "/favicon.ico") return redirect(res, "/assets/logo.svg");
       if (route === "/login.html" && session(req))
-        return redirect(res, "/index.html.html");
+        return redirect(res, "/index.html");
+      if (route === "/index.html.html")
+        return redirect(res, session(req) ? "/index.html" : "/login.html");
       if (privateFiles.has(route) && !session(req))
         return route.endsWith(".html")
           ? redirect(res, "/login.html")

@@ -1,6 +1,157 @@
 /* Local, experimental chromagram/template estimation. No network or audio uploads. */
-function fft(real,imag){const n=real.length;for(let i=1,j=0;i<n;i++){let bit=n>>1;for(;j&bit;bit>>=1)j^=bit;j^=bit;if(i<j){[real[i],real[j]]=[real[j],real[i]];}}for(let len=2;len<=n;len<<=1){const angle=-2*Math.PI/len,wr=Math.cos(angle),wi=Math.sin(angle);for(let i=0;i<n;i+=len){let ar=1,ai=0;for(let j=0;j<len/2;j++){const u=i+j,v=u+len/2,tr=real[v]*ar-imag[v]*ai,ti=real[v]*ai+imag[v]*ar;real[v]=real[u]-tr;imag[v]=imag[u]-ti;real[u]+=tr;imag[u]+=ti;const next=ar*wr-ai*wi;ai=ar*wi+ai*wr;ar=next}}}}
-function analyze(pcm,sampleRate,report=()=>{}){const rate=11025,n=8192,ratio=sampleRate/rate,len=Math.floor(pcm.length/ratio),audio=new Float32Array(len);for(let i=0;i<len;i++){const a=Math.floor(i*ratio),b=Math.min(pcm.length,Math.max(a+1,Math.floor((i+1)*ratio)));let sum=0;for(let j=a;j<b;j++)sum+=pcm[j];audio[i]=sum/(b-a)}const window=new Float32Array(n);for(let i=0;i<n;i++)window[i]=.5-.5*Math.cos(2*Math.PI*i/(n-1));const bins=[];for(let k=1;k<n/2;k++){const hz=k*rate/n;if(hz<65||hz>1400)continue;const midi=69+12*Math.log2(hz/440),nearest=Math.round(midi);if(Math.abs(midi-nearest)<.35)bins.push([k,(nearest%12+12)%12]);}const duration=len/rate,segments=[],span=2;for(let start=0;start<duration;start+=span){const chroma=new Float64Array(12);let energy=0,frames=0;for(let t=start;t<Math.min(duration,start+span);t+=.35){const offset=Math.floor(t*rate);if(offset+n>len&&frames)break;const re=new Float64Array(n),im=new Float64Array(n);for(let j=0;j<n;j++){const v=audio[offset+j]||0;re[j]=v*window[j];energy+=v*v;}fft(re,im);for(const [k,pc] of bins){const mag=Math.hypot(re[k],im[k]);if(mag>Math.hypot(re[k-1],im[k-1])&&mag>=Math.hypot(re[k+1],im[k+1]))chroma[pc]+=Math.pow(mag,.65);}frames++;}if(energy/Math.max(1,frames*n)<.000008)continue;const norm=Math.sqrt(chroma.reduce((a,v)=>a+v*v,0));if(!norm)continue;let best=null;for(let root=0;root<12;root++)for(const minor of [false,true]){const triad=[root,(root+(minor?3:4))%12,(root+7)%12];const score=triad.reduce((a,k)=>a+chroma[k],0)/(Math.sqrt(3)*norm);if(!best||score>best.confidence)best={root,minor,confidence:score,start,end:Math.min(duration,start+span)};}if(best)segments.push(best);report(Math.round((start+span)/duration*100));}/* Suppress isolated one-window reversals. */for(let i=1;i<segments.length-1;i++){const a=segments[i-1],b=segments[i],c=segments[i+1];if(a.root===c.root&&a.minor===c.minor&&(b.root!==a.root||b.minor!==a.minor)){b.root=a.root;b.minor=a.minor;}}
-const merged=[];for(const c of segments){const last=merged.at(-1);if(last&&last.root===c.root&&last.minor===c.minor&&Math.abs(last.end-c.start)<.01){last.confidence=(last.confidence*(last.end-last.start)+c.confidence*(c.end-c.start))/(c.end-last.start);last.end=c.end;}else merged.push({...c});}return merged;}
-if(typeof self!=='undefined')self.onmessage=e=>{try{const chords=analyze(e.data.pcm,e.data.sampleRate,progress=>self.postMessage({progress:Math.min(99,progress)}));self.postMessage({chords})}catch{self.postMessage({error:'Analysis failed. Try a shorter, clearer audio file.'})}};
-if(typeof module!=='undefined')module.exports={analyze,fft};
+function fft(real, imag) {
+  const n = real.length;
+  for (let i = 1, j = 0; i < n; i++) {
+    let bit = n >> 1;
+    for (; j & bit; bit >>= 1) j ^= bit;
+    j ^= bit;
+    if (i < j) {
+      [real[i], real[j]] = [real[j], real[i]];
+    }
+  }
+  for (let len = 2; len <= n; len <<= 1) {
+    const angle = (-2 * Math.PI) / len,
+      wr = Math.cos(angle),
+      wi = Math.sin(angle);
+    for (let i = 0; i < n; i += len) {
+      let ar = 1,
+        ai = 0;
+      for (let j = 0; j < len / 2; j++) {
+        const u = i + j,
+          v = u + len / 2,
+          tr = real[v] * ar - imag[v] * ai,
+          ti = real[v] * ai + imag[v] * ar;
+        real[v] = real[u] - tr;
+        imag[v] = imag[u] - ti;
+        real[u] += tr;
+        imag[u] += ti;
+        const next = ar * wr - ai * wi;
+        ai = ar * wi + ai * wr;
+        ar = next;
+      }
+    }
+  }
+}
+function analyze(pcm, sampleRate, report = () => {}) {
+  const rate = 11025,
+    n = 8192,
+    ratio = sampleRate / rate,
+    len = Math.floor(pcm.length / ratio),
+    audio = new Float32Array(len);
+  for (let i = 0; i < len; i++) {
+    const a = Math.floor(i * ratio),
+      b = Math.min(pcm.length, Math.max(a + 1, Math.floor((i + 1) * ratio)));
+    let sum = 0;
+    for (let j = a; j < b; j++) sum += pcm[j];
+    audio[i] = sum / (b - a);
+  }
+  const window = new Float32Array(n);
+  for (let i = 0; i < n; i++)
+    window[i] = 0.5 - 0.5 * Math.cos((2 * Math.PI * i) / (n - 1));
+  const bins = [];
+  for (let k = 1; k < n / 2; k++) {
+    const hz = (k * rate) / n;
+    if (hz < 65 || hz > 1400) continue;
+    const midi = 69 + 12 * Math.log2(hz / 440),
+      nearest = Math.round(midi);
+    if (Math.abs(midi - nearest) < 0.35)
+      bins.push([k, ((nearest % 12) + 12) % 12]);
+  }
+  const duration = len / rate,
+    segments = [],
+    span = 2;
+  for (let start = 0; start < duration; start += span) {
+    const chroma = new Float64Array(12);
+    let energy = 0,
+      frames = 0;
+    for (let t = start; t < Math.min(duration, start + span); t += 0.35) {
+      const offset = Math.floor(t * rate);
+      if (offset + n > len && frames) break;
+      const re = new Float64Array(n),
+        im = new Float64Array(n);
+      for (let j = 0; j < n; j++) {
+        const v = audio[offset + j] || 0;
+        re[j] = v * window[j];
+        energy += v * v;
+      }
+      fft(re, im);
+      for (const [k, pc] of bins) {
+        const mag = Math.hypot(re[k], im[k]);
+        if (
+          mag > Math.hypot(re[k - 1], im[k - 1]) &&
+          mag >= Math.hypot(re[k + 1], im[k + 1])
+        )
+          chroma[pc] += Math.pow(mag, 0.65);
+      }
+      frames++;
+    }
+    if (energy / Math.max(1, frames * n) < 0.000008) continue;
+    const norm = Math.sqrt(chroma.reduce((a, v) => a + v * v, 0));
+    if (!norm) continue;
+    let best = null;
+    for (let root = 0; root < 12; root++)
+      for (const minor of [false, true]) {
+        const triad = [root, (root + (minor ? 3 : 4)) % 12, (root + 7) % 12];
+        const score =
+          triad.reduce((a, k) => a + chroma[k], 0) / (Math.sqrt(3) * norm);
+        if (!best || score > best.confidence)
+          best = {
+            root,
+            minor,
+            confidence: score,
+            start,
+            end: Math.min(duration, start + span),
+          };
+      }
+    if (best) segments.push(best);
+    report(Math.round(((start + span) / duration) * 100));
+  }
+  /* Suppress isolated one-window reversals. */ for (
+    let i = 1;
+    i < segments.length - 1;
+    i++
+  ) {
+    const a = segments[i - 1],
+      b = segments[i],
+      c = segments[i + 1];
+    if (
+      a.root === c.root &&
+      a.minor === c.minor &&
+      (b.root !== a.root || b.minor !== a.minor)
+    ) {
+      b.root = a.root;
+      b.minor = a.minor;
+    }
+  }
+  const merged = [];
+  for (const c of segments) {
+    const last = merged.at(-1);
+    if (
+      last &&
+      last.root === c.root &&
+      last.minor === c.minor &&
+      Math.abs(last.end - c.start) < 0.01
+    ) {
+      last.confidence =
+        (last.confidence * (last.end - last.start) +
+          c.confidence * (c.end - c.start)) /
+        (c.end - last.start);
+      last.end = c.end;
+    } else merged.push({ ...c });
+  }
+  return merged;
+}
+if (typeof self !== "undefined")
+  self.onmessage = (e) => {
+    try {
+      const chords = analyze(e.data.pcm, e.data.sampleRate, (progress) =>
+        self.postMessage({ progress: Math.min(99, progress) }),
+      );
+      self.postMessage({ chords });
+    } catch {
+      self.postMessage({
+        error: "Analysis failed. Try a shorter, clearer audio file.",
+      });
+    }
+  };
+if (typeof module !== "undefined") module.exports = { analyze, fft };

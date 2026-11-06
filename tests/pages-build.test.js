@@ -20,16 +20,31 @@ test("Pages artifact contains only website files and works at a repository subpa
       path.join(directory, "js/hosting-config.js"),
       "utf8",
     );
+  assert.equal(
+    await fs.readFile(path.join(directory, "index.html.html"), "utf8"),
+    index,
+  );
   assert(index.includes("js/backend.js"));
   assert(index.includes('href="#guitar"'));
-  for (const asset of ["js/guitar-tools.js", "js/guitar-analysis.js", "js/guitar-service.js", "css/guitar-tools.css"])
+  for (const asset of [
+    "js/guitar-tools.js",
+    "js/guitar-analysis.js",
+    "js/guitar-service.js",
+    "js/lyrics-sheet.js",
+    "css/guitar-tools.css",
+  ])
     assert((await fs.stat(path.join(directory, asset))).isFile());
   assert(index.includes("js/bootstrap.js"));
   assert(login.includes("js/hosting-config.js"));
-  const reset = await fs.readFile(path.join(directory, "reset-password.html"), "utf8");
+  const reset = await fs.readFile(
+    path.join(directory, "reset-password.html"),
+    "utf8",
+  );
   const version = login.match(/js\/backend\.js\?v=([a-f0-9]{16})/)[1];
   for (const page of [index, login, reset]) {
-    const assets = [...page.matchAll(/(?:src|href)="((?:js|css|assets)\/[^\"]+)"/g)];
+    const assets = [
+      ...page.matchAll(/(?:src|href)="((?:js|css|assets)\/[^\"]+)"/g),
+    ];
     assert(assets.length > 0);
     assert(assets.every((match) => match[1].endsWith(`?v=${version}`)));
   }
@@ -49,7 +64,7 @@ test("Pages artifact contains only website files and works at a repository subpa
   ])
     await assert.rejects(fs.stat(path.join(directory, privatePath)));
   assert.equal(
-    new URL("login.html", "https://example.github.io/resonance/index.html.html")
+    new URL("login.html", "https://example.github.io/resonance/index.html")
       .pathname,
     "/resonance/login.html",
   );
@@ -58,7 +73,10 @@ test("Pages artifact contains only website files and works at a repository subpa
     url: "https://campustest.supabase.co",
     publishableKey: "sb_publishable_changed_test_only_not_a_real_key",
   });
-  const rebuilt = await fs.readFile(path.join(directory, "reset-password.html"), "utf8");
+  const rebuilt = await fs.readFile(
+    path.join(directory, "reset-password.html"),
+    "utf8",
+  );
   assert(!rebuilt.includes(`?v=${version}`));
 });
 test("Pages build fails before publishing a secret key or missing project configuration", async () => {

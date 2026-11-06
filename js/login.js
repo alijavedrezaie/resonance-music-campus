@@ -19,7 +19,7 @@
         document.querySelector("#recovery-help").textContent =
           "Your owner account is managed in your Supabase dashboard. Public registration is disabled. Sign out when using a shared device.";
       if (account.authenticated) {
-        location.replace(new URL("index.html.html", document.baseURI).href);
+        location.replace(new URL("index.html", document.baseURI).href);
         return;
       }
       setup = !account.configured && account.setupAllowed;
@@ -72,7 +72,7 @@
         ...(setup ? { code: data.code, displayName: data.displayName } : {}),
       });
       form.reset();
-      location.replace(new URL("index.html.html", document.baseURI).href);
+      location.replace(new URL("index.html", document.baseURI).href);
     } catch (issue) {
       error.textContent = issue.message;
       submit.disabled = false;

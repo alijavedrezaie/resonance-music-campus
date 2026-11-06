@@ -25,3 +25,9 @@ Magic Chords receives the submitted public YouTube URL. Its documented anonymous
 The service returned a completed analysis for `https://www.youtube.com/watch?v=2Vv-BfVoq4g` during implementation on November 3, 2026. The first test video returned `url_media_unavailable`; the app handles that as a failed video, not an empty or fabricated chart. This is a provider test, not confirmation that the campus Edge Function has been deployed.
 
 Strumming patterns remain suggestions. The practice trainer follows equal-duration chord steps independently of the source timeline; its 3/4 and 4/4 settings are labeled as practice meter. Seventh and slash chords retain their labels. Unsupported chord voicings show no diagram instead of an incorrectly labeled triad.
+
+## Video-to-lyrics transcription
+
+The **Lyrics & chords** tab accepts a YouTube link and submits a separate transcription job using `/api/v1/transcribe/url`. The existing owner-only relay exposes `lyrics-submit` and `lyrics-result` actions, sharing the same status polling and cancellation behavior. The relay returns bounded transcript text and word timestamps; provider paths, audio URLs and other internal metadata stay server-side.
+
+Deploy the updated `guitar-youtube` function alongside the frontend to enable these actions. No additional API key or database migration is needed. Generated words fill an empty sheet automatically. If a draft already exists, the user reviews the generated version and explicitly replaces it. Lyrics can be corrected and saved to Songbook using the existing backup format. Chord markers are added manually; this does not claim automatic word-to-chord alignment. Quota errors, unavailable media and instrumental/empty transcripts are shown in the lyrics tab.

@@ -53,7 +53,7 @@ async function fixture(t, options = {}) {
 }
 test("Signed-out requests cannot read private pages, lessons, images, state or database files", async (t) => {
   const f = await fixture(t);
-  const root = await f.call("/index.html.html");
+  const root = await f.call("/index.html");
   assert.equal(root.status, 303);
   assert.equal(root.headers.get("location"), "/login.html");
   for (const route of [
@@ -62,6 +62,7 @@ test("Signed-out requests cannot read private pages, lessons, images, state or d
     "/js/guitar-tools.js",
     "/js/guitar-analysis.js",
     "/js/guitar-service.js",
+    "/js/lyrics-sheet.js",
     "/css/guitar-tools.css",
     "/js/data.js",
     "/assets/courses/theory.jpg",
@@ -76,6 +77,23 @@ test("Signed-out requests cannot read private pages, lessons, images, state or d
   ])
     assert.equal((await f.call(route)).status, 404, route);
   assert.equal((await f.call("/login.html")).status, 200);
+});
+test("Old campus URLs redirect to the canonical page and preserve authentication", async (t) => {
+  const f = await fixture(t);
+  assert.equal(
+    (await f.call("/index.html.html")).headers.get("location"),
+    "/login.html",
+  );
+  const cookie = await f.setup();
+  for (const route of ["/", "/index.html.html", "/login.html"]) {
+    const response = await f.call(route, "GET", undefined, cookie);
+    assert.equal(response.status, 303);
+    assert.equal(response.headers.get("location"), "/index.html");
+  }
+  assert.equal(
+    (await f.call("/index.html", "GET", undefined, cookie)).status,
+    200,
+  );
 });
 test("Only local one-time setup can create the single owner; passwords are hashed", async (t) => {
   const f = await fixture(t);
