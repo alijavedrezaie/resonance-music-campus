@@ -56,5 +56,12 @@ test('Campus URL form renders actual analyzed chords and cancels when leaving th
  root.querySelector('#youtubeUrl').value='https://youtu.be/2Vv-BfVoq4g';
  await root.querySelector('#urlForm').onsubmit({preventDefault(){}});
  assert.match(root.querySelector('#modeBadge').textContent,/YOUTUBE ANALYZED/);assert.match(root.querySelector('#chordGrid').innerHTML,/Fm7/);assert.equal(root.querySelector('#tempo').value,63);assert.match(root.querySelector('#urlStatus').textContent,/ready/);
+ assert.match(root.querySelector('#songAnalysisStatus').textContent,/ready/);
+ ctx.CampusBackend.request=async()=>{throw new Error('The analysis service is busy or its free quota is reached. Try again later.')};
+ await root.querySelector('#analyseBtn').onclick();
+ assert.match(root.querySelector('#songAnalysisStatus').textContent,/quota/);
+ assert.equal(root.querySelector('#analyseBtn').disabled,false);
+ assert.equal(root.querySelector('#analyseBtn').textContent,'Analyse chords');
+ assert.equal(root.querySelector('#difficulty').textContent,'Analysis incomplete');
  vm.runInContext('GuitarTools.stop()',ctx);
 });
